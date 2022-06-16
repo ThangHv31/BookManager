@@ -1,43 +1,34 @@
 package com.vmo.bookmanager.service.impl;
 
-import com.vmo.bookmanager.dao.AuthorRepo;
 import com.vmo.bookmanager.dao.BookRepository;
 import com.vmo.bookmanager.dto.BookDTO;
 import com.vmo.bookmanager.entities.Book;
-import com.vmo.bookmanager.service.IBaseService;
+import com.vmo.bookmanager.mapper.BookMapper;
+import com.vmo.bookmanager.mapper.BookMapperImpl;
 import com.vmo.bookmanager.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BookService implements IBaseService<BookDTO>, IBookService {
+public class BookService implements IBookService {
     @Autowired
     private BookRepository bookRepo;
-    @Autowired
-    private AuthorRepo authorRepo;
 
-//    private final BookRepository bookRepo;
-//
-//    public BookService(BookRepository bookRepo) {
-//        this.bookRepo = bookRepo;
-//    }
+    private final BookMapper bookMapper = new BookMapperImpl();
 
     @Override
     public BookDTO create(BookDTO bookDTO) {
-        bookRepo.save(toEntity(bookDTO));
+        Book book = bookMapper.toEntity(bookDTO);
+        bookRepo.save(book);
         return bookDTO;
     }
 
+    @Override
     public BookDTO update(String id, BookDTO bookDTO) {
         Book oldBook = bookRepo.findById(id).get();
-        oldBook.setBookName(bookDTO.getBookName());
-        oldBook.setContent(bookDTO.getContent());
-        oldBook.setAuthorName(bookDTO.getAuthorName());
-        oldBook.setDescription(bookDTO.getDescription());
-        oldBook.setTitle(bookDTO.getTitle());
+        oldBook = bookMapper.toEntity(bookDTO);
         bookRepo.save(oldBook);
         return bookDTO;
     }
@@ -45,17 +36,12 @@ public class BookService implements IBaseService<BookDTO>, IBookService {
     @Override
     public BookDTO findById(String id) {
         Book book = bookRepo.findById(id).get();
-        return toDTO(book);
+        return bookMapper.toDTO(book);
     }
 
     @Override
     public List<BookDTO> findAll() {
-        List<Book> list = bookRepo.findAll();
-        List<BookDTO> listRespone = new ArrayList<>();
-        for (Book book : list) {
-            listRespone.add(toDTO(book));
-        }
-        return listRespone;
+        return bookMapper.toDTOList(bookRepo.findAll());
     }
 
     @Override
@@ -63,25 +49,4 @@ public class BookService implements IBaseService<BookDTO>, IBookService {
         bookRepo.delete(bookRepo.findById(id).get());
     }
 
-    @Override
-    public Book toEntity(BookDTO bookDTO) {
-        Book book = new Book();
-        book.setAuthorName(bookDTO.getAuthorName());
-        book.setBookName(bookDTO.getBookName());
-        book.setContent(bookDTO.getContent());
-        book.setDescription(bookDTO.getDescription());
-        book.setTitle(bookDTO.getTitle());
-        return book;
-    }
-
-    @Override
-    public BookDTO toDTO(Book book) {
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setAuthorName(book.getAuthorName());
-        bookDTO.setBookName(book.getBookName());
-        bookDTO.setContent(book.getContent());
-        bookDTO.setDescription(book.getDescription());
-        bookDTO.setTitle(book.getTitle());
-        return bookDTO;
-    }
 }

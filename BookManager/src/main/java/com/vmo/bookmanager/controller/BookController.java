@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequestMapping(value = "/api/v1")
 public class BookController {
     @Autowired
     private BookService bookService;
@@ -25,17 +27,19 @@ public class BookController {
     }
     //Them san pham
     @PostMapping(value = "/books")
-    public ResponseEntity<BookDTO> createBook(@RequestBody  BookDTO book){
+    public ResponseEntity<BookDTO> createBook(@RequestBody @Valid BookDTO book) {
         return ResponseEntity.ok().body(bookService.create(book));
     }
     //update
-    @PutMapping("/book/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable("id")String id,@RequestBody  BookDTO book){
+    @PutMapping("/books/{id}")
+    public ResponseEntity<BookDTO> updateBook(@PathVariable("id")String id,@Valid @RequestBody  BookDTO book){
         return ResponseEntity.ok().body(bookService.update(id,book));
     }
     //Xoa
     @DeleteMapping("/books/{id}")
-    public void delete(@PathVariable("id")String id){
+    public ResponseEntity<String> delete(@PathVariable("id")String id){
         bookService.delete(id);
+        String title = "Delete Sucessfully!";
+        return ResponseEntity.ok(title);
     }
 }

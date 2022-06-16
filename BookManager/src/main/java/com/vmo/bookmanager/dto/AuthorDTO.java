@@ -1,22 +1,37 @@
 package com.vmo.bookmanager.dto;
 
-import com.vmo.bookmanager.entities.Book;
+import lombok.Data;
 
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+@Data
 public class AuthorDTO {
+    @NotEmpty(message = "Không được để trống")
     private String authorName;
-    private String birthDate;
-    private Double phoneName;
-    private String email;
-    private List<Book> bookList;
 
-    public List<Book> getBookList() {
+    private String birthDate;
+    @NotEmpty(message = "Không được để trống")
+    @Min(value = 10, message = "Số điện thoại gồm 10 chữ số")
+    @Max(value = 10, message = "Số điện thoại gồm 10 chữ số")
+    private String phoneName;
+    @NotEmpty
+    @Email(message = "Email không đúng định dạng")
+    private String email;
+    private List<BookDTO> bookList;
+
+    public List<BookDTO> getBookList() {
         return bookList;
     }
-    public void setBookList(List<Book> bookList) {
+
+    public void setBookList(List<BookDTO> bookList) {
         this.bookList = bookList;
     }
+
     public String getAuthorName() {
         return authorName;
     }
@@ -33,11 +48,11 @@ public class AuthorDTO {
         this.birthDate = birthDate;
     }
 
-    public Double getPhoneName() {
+    public String getPhoneName() {
         return phoneName;
     }
 
-    public void setPhoneName(Double phoneName) {
+    public void setPhoneName(String phoneName) {
         this.phoneName = phoneName;
     }
 
@@ -49,11 +64,12 @@ public class AuthorDTO {
         this.email = email;
     }
 
-    public AuthorDTO(String authorName, String birthDate, Double phoneName, String email) {
+    public AuthorDTO(String authorName, String birthDate, String phoneName, String email, List<BookDTO> bookList) {
         this.authorName = authorName;
         this.birthDate = birthDate;
         this.phoneName = phoneName;
         this.email = email;
+        this.bookList = bookList;
     }
 
     public AuthorDTO() {

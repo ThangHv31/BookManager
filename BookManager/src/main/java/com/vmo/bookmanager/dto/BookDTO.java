@@ -1,12 +1,22 @@
 package com.vmo.bookmanager.dto;
 
 
+import org.mapstruct.Mapping;
+
+import javax.validation.constraints.NotEmpty;
+
 public class BookDTO {
+    @NotEmpty(message = "Không được để trống")
     private String title;
+    @NotEmpty(message = "Không được để trống")
     private String content;
+    @NotEmpty(message = "Không được để trống")
     private String bookName;
+    @NotEmpty(message = "Không được để trống")
     private String description;
+
     private String authorName;
+
 
     public String getTitle() {
         return title;
@@ -43,6 +53,7 @@ public class BookDTO {
     public String getAuthorName() {
         return authorName;
     }
+
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
