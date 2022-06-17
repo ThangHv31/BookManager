@@ -25,6 +25,10 @@ public class BookController {
     public ResponseEntity<BookDTO> getById(@PathVariable("id")String id){
         return ResponseEntity.ok().body(bookService.findById(id));
     }
+    @GetMapping("/books/byauthor")
+    public ResponseEntity<List<BookDTO>> getByName(@RequestParam("name")String name){
+        return ResponseEntity.ok().body(bookService.findByAuthor(name));
+    }
     //Them san pham
     @PostMapping(value = "/books")
     public ResponseEntity<BookDTO> createBook(@RequestBody @Valid BookDTO book) {

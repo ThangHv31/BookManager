@@ -15,8 +15,12 @@ import java.util.List;
 public class BookService implements IBookService {
     @Autowired
     private BookRepository bookRepo;
-
+    private final AuthorService authorService;
     private final BookMapper bookMapper = new BookMapperImpl();
+
+    public BookService(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
     @Override
     public BookDTO create(BookDTO bookDTO) {
@@ -43,7 +47,10 @@ public class BookService implements IBookService {
     public List<BookDTO> findAll() {
         return bookMapper.toDTOList(bookRepo.findAll());
     }
-
+    public List<BookDTO> findByAuthor(String name){
+        List<BookDTO> bookList = bookRepo.findBookByAuthorName(name);
+        return bookList;
+    }
     @Override
     public void delete(String id) {
         bookRepo.delete(bookRepo.findById(id).get());

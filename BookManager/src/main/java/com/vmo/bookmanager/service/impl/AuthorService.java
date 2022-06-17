@@ -30,12 +30,12 @@ public class AuthorService implements IAuthorService {
         authorRepo.save(author);
         return authorDTO;
     }
-
+    @Override
     public AuthorDTO update(String id, AuthorDTO authorDTO) {
         Author author = authorRepo.findById(id).get();
         author = authorMapper.toEntity(authorDTO);
         authorRepo.save(author);
-        return authorDTO;
+        return authorMapper.toDTO(author);
     }
 
     @Override
