@@ -7,6 +7,6 @@ public interface IBaseService <D>{
     D findById(String id);
     List<D> findAll();
     D update(String id, D dto);
-    void delete(String id);
+    String delete(String id);
 
 }

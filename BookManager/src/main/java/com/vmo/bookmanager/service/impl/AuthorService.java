@@ -34,6 +34,7 @@ public class AuthorService implements IAuthorService {
     public AuthorDTO update(String id, AuthorDTO authorDTO) {
         Author author = authorRepo.findById(id).get();
         author = authorMapper.toEntity(authorDTO);
+        author.setId(id);
         authorRepo.save(author);
         return authorMapper.toDTO(author);
     }
@@ -50,7 +51,8 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public void delete(String id) {
+    public String delete(String id) {
         authorRepo.delete(authorRepo.findById(id).get());
+        return "Yes";
     }
 }

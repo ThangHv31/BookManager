@@ -31,7 +31,7 @@ public class BookController {
     }
     //Them san pham
     @PostMapping(value = "/books")
-    public ResponseEntity<BookDTO> createBook(@RequestBody @Valid BookDTO book) {
+    public ResponseEntity<BookDTO> createBook( @RequestBody BookDTO book) {
         return ResponseEntity.ok().body(bookService.create(book));
     }
     //update
@@ -41,9 +41,7 @@ public class BookController {
     }
     //Xoa
     @DeleteMapping("/books/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id")String id){
-        bookService.delete(id);
-        String title = "Delete Sucessfully!";
-        return ResponseEntity.ok(title);
+    public ResponseEntity<?> delete(@PathVariable("id")String id){
+        return ResponseEntity.ok().body(bookService.delete(id));
     }
 }

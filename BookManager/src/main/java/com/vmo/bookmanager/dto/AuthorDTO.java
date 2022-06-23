@@ -2,28 +2,24 @@ package com.vmo.bookmanager.dto;
 
 import lombok.Data;
 
-
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Data
 public class AuthorDTO {
     @NotEmpty(message = "Không được để trống")
     private String authorName;
-
+    @NotEmpty
+    @Pattern(regexp = "\\d{2}-\\d{2}-\\d{4}")
     private String birthDate;
     @NotEmpty(message = "Không được để trống")
-    @Min(value = 10, message = "Số điện thoại gồm 10 chữ số")
-    @Max(value = 10, message = "Số điện thoại gồm 10 chữ số")
     private String phoneName;
     @NotEmpty
-    @Email(message = "Email không đúng định dạng")
+    @Pattern(regexp = "^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,})$")
     private String email;
     private List<BookDTO> bookList;
-
     public List<BookDTO> getBookList() {
         return bookList;
     }

@@ -37,7 +37,7 @@ public class AuthorController {
 
     //Update thong tin tac gia
     @PutMapping("/authors/{id}")
-    public ResponseEntity<AuthorDTO> updateBook(@PathVariable("id") String id,@Valid @RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> updateBook(@PathVariable("id") String id, @Valid @RequestBody AuthorDTO authorDTO) {
         return ResponseEntity.ok().body(authorService.update(id, authorDTO));
     }
 

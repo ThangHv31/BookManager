@@ -68,4 +68,11 @@ public class Book {
         this.description = description;
     }
 
+    public Book(String title, String content, String bookName, String description, String authorName) {
+        this.title = title;
+        this.content = content;
+        this.bookName = bookName;
+        this.description = description;
+        this.authorName = authorName;
+    }
 }
